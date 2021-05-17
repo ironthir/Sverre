@@ -1,0 +1,28 @@
+{
+  "name": "project_zero_dawn",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ironthir/Project-Zero-Dawn.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ironthir/Project-Zero-Dawn/issues"
+  },
+  "homepage": "https://github.com/ironthir/Project-Zero-Dawn#readme",
+  "dependencies": {
+    "@discordjs/opus": "^0.5.0",
+    "discord.js": "^12.5.3",
+    "ffmpeg": "0.0.4",
+    "ffmpeg-static": "^4.3.0",
+    "node-fetch": "^2.6.1",
+    "snoowrap": "^1.23.0",
+    "ytdl-core": "^4.8.0"
+  }
+}

@@ -10,7 +10,7 @@ module.exports = {
         .addFields(
             { name: 'Votekick reasons added!', value: 'Now you can announce why you want to kick a member. Optional feature, "No reason" is displayed when you do not provide one.'},
             { name: 'Disconnect command added!', value: 'It basically allows you to kick Sverre out of a voice channel'},
-            { name: 'Playing audio added!', value: 'd!play command has been introduced. It makes PZD join voice channel you are connected to. You need to provide YT URL for it to work, however it is very early version of this feature so you cannot skip, pause or queue songs.'},
+            { name: 'Playing audio added!', value: 'd!play command has been introduced. It makes Sverre join voice channel you are connected to. You need to provide YT URL for it to work, however it is very early version of this feature so you cannot skip, pause or queue songs.'},
             { name: 'Brand new admin commands', value: 'Kick, ban and remove are the very new commands to help with server administration. Correct usage of them in d!commands.'},
             { name: 'Poll command', value: 'Command for making yes/no polls has been added. Polls with user defined options to be added in the future. Check d!commands for details'},
         )

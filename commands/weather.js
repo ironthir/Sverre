@@ -22,7 +22,7 @@ module.exports = {
 						{ name: 'Feels like', value: parseFloat(data['main']['feels_like'] - 273.15).toFixed(2) + ' °C', inline: true },
 						{ name: '\u200B', value: '\u200B', inline: true },
 						{ name: 'Maximum temperature', value: parseFloat(data['main']['temp_max'] - 273.15).toFixed(2) + ' °C', inline: true },
-						{ name: 'Minumum temperature', value: parseFloat(data['main']['temp_min'] - 273.15).toFixed(2) + ' °C', inline: true },
+						{ name: 'Minimum temperature', value: parseFloat(data['main']['temp_min'] - 273.15).toFixed(2) + ' °C', inline: true },
 						{ name: 'Humitity', value:  data['main']['humidity'] + '%'},
 						{ name: 'Pressure', value:  data['main']['pressure'] + ' hPa'},
 						{ name: 'Wind speed', value:  data['wind']['speed'] + ' m/s'},
@@ -31,7 +31,7 @@ module.exports = {
 					)
 					.setTimestamp();
 				receivedMessage.channel.send(currentWeather);
-			}).catch(err => receivedMessage.reply("you provided wrong city name!"));
+			}).catch(err => console.log(err));
 
 		
 

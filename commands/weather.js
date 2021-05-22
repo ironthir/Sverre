@@ -22,7 +22,7 @@ module.exports = {
 						{ name: '\u200B', value: '\u200B', inline: true },
 						{ name: 'Maximum temperature', value: parseFloat(data['main']['temp_max'] - 273.15).toFixed(2) + ' °C', inline: true },
 						{ name: 'Minimum temperature', value: parseFloat(data['main']['temp_min'] - 273.15).toFixed(2) + ' °C', inline: true },
-						{ name: 'Humitity', value:  data['main']['humidity'] + '%'},
+						{ name: 'Humidity', value:  data['main']['humidity'] + '%'},
 						{ name: 'Pressure', value:  data['main']['pressure'] + ' hPa'},
 						{ name: 'Wind speed', value:  data['wind']['speed'] + ' m/s'},
 						{ name: 'Longitude', value:  data['coord']['lon'], inline: true},

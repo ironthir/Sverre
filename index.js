@@ -77,4 +77,4 @@ function processCommand(receivedMessage) {
     
     
 }
-client.login('ODExNjI5NTQwMDgyMzE5Mzgw.YC0-6Q.RQB6Xi3D4O9AqOxGkQyKTlUhbfo');
+client.login(process.env.TOKEN);

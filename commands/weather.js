@@ -5,7 +5,7 @@ module.exports = {
 	name: 'weather',
 	description: 'Current weather status for your city',
 	execute(receivedMessage, arguments) {
-		let city = arguments;
+		let city = arguments.join(' '); 
 		fetch('https://api.openweathermap.org/data/2.5/weather?q=' + city + '&lang=en&appid=' + process.env.WEATHER_TOKEN)
 			.then(response => response.json())
 			.then(data => {
@@ -17,7 +17,6 @@ module.exports = {
 					.addFields(
 						{ name: 'Description', value:  data.weather[0].description},
 						{ name: 'Cloudiness', value:  data['clouds']['all'] + '%'},
-						{ name: 'Rain last hour', value:  data['rain']['1h'] + ' mm'},
 						{ name: 'Temperature', value: parseFloat(data['main']['temp'] - 273.15).toFixed(2) + ' °C', inline: true },
 						{ name: 'Feels like', value: parseFloat(data['main']['feels_like'] - 273.15).toFixed(2) + ' °C', inline: true },
 						{ name: '\u200B', value: '\u200B', inline: true },
@@ -31,7 +30,7 @@ module.exports = {
 					)
 					.setTimestamp();
 				receivedMessage.channel.send(currentWeather);
-			}).catch(err => console.log(err));
+			}).catch(err => receivedMessage.channel.send("You provided wrong city name or didn't provide city name at all"));
 
 		
 

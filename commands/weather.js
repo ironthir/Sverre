@@ -1,3 +1,4 @@
+
 const fetch = require("node-fetch");
 const Discord = require('discord.js')
 module.exports = {
@@ -5,7 +6,7 @@ module.exports = {
 	description: 'Current weather status for your city',
 	execute(receivedMessage, arguments) {
 		let city = arguments;
-		fetch('https://api.openweathermap.org/data/2.5/weather?q=' + city + '&appid=' + process.env.WEATHER)
+		fetch('https://api.openweathermap.org/data/2.5/weather?q=' + city + '&appid=' + process.env.WEATHER_TOKEN)
 			.then(response => response.json())
 			.then(data => {
 				const currentWeather = new Discord.MessageEmbed()

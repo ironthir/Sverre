@@ -1,19 +1,36 @@
 const fetch = require("node-fetch");
+const Discord = require('discord.js')
 module.exports = {
 	name: 'weather',
-	description: 'Getting rid of messages',
+	description: 'Current weather status for your city',
 	execute(receivedMessage, arguments) {
-		fetch("https://community-open-weather-map.p.rapidapi.com/weather?q=london&lat=0&lon=0&callback=test&id=2172797&lang=null&units=%22metric%22%20or%20%22imperial%22&mode=xml%2C%20html", {
-			"method": "GET",
-			"headers": {
-				"x-rapidapi-key": "0f9373b1ddmshb1d5bce676adfbdp1a93d0jsn237c60847b17",
-				"x-rapidapi-host": "community-open-weather-map.p.rapidapi.com"
-			}
-		})
-		.then(response => {
-			console.log(response);
-		})
-		.catch(err => {
-			console.error(err);
-		});
+		let city = arguments;
+		fetch('https://api.openweathermap.org/data/2.5/weather?q=' + city + '&appid=' + process.env.WEATHER)
+			.then(response => response.json())
+			.then(data => {
+				const currentWeather = new Discord.MessageEmbed()
+					.setColor('#0099ff')
+					.setTitle('Weather in ' + data.name)
+					.setAuthor(receivedMessage.member.displayName, receivedMessage.author.avatarURL())
+					.setThumbnail('https://i.imgur.com/uiFYsou.png')
+					.addFields(
+						{ name: 'Description', value:  data.weather[0].description},
+						{ name: 'Temperature', value: parseFloat(data['main']['temp'] - 273.15).toFixed(2) + ' °C', inline: true },
+						{ name: 'Feels like', value: parseFloat(data['main']['feels_like'] - 273.15).toFixed(2) + ' °C', inline: true },
+						{ name: '\u200B', value: '\u200B', inline: true },
+						{ name: 'Maximum temperature', value: parseFloat(data['main']['temp_max'] - 273.15).toFixed(2) + ' °C', inline: true },
+						{ name: 'Minumum temperature', value: parseFloat(data['main']['temp_min'] - 273.15).toFixed(2) + ' °C', inline: true },
+						{ name: 'Humitity', value:  data['main']['humidity'] + '%'},
+						{ name: 'Pressure', value:  data['main']['pressure'] + ' hPa'},
+						{ name: 'Wind speed', value:  data['wind']['speed'] + ' m/s'},
+						{ name: 'Longitude', value:  data['coord']['lon'], inline: true},
+						{ name: 'Latitude', value:  data['coord']['lat'], inline: true},
+					)
+					.setTimestamp();
+				receivedMessage.channel.send(currentWeather);
+			}).catch(err => receivedMessage.reply("you provided wrong city name!"));
+
+		
+
+
 }}

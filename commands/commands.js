@@ -15,6 +15,7 @@
         { name: 'love', value: 'Cute animal pics. Usage: d!love'},
         { name: 'coffee', value: 'Best wishes for your coffee (only in polish). Usage: d!coffee'},
 		{ name: 'poll', value: 'Simple yes/no poll. Usage: d!poll [time in minutes] [question to ask]'},
+		{ name: 'weather', value: 'Current weather in any city on Earth. Usage: d!weather [city]. Do not use diacritical marks'},
 		{ name: 'kick', value: 'Usage: d!kick [@member] ?[reason]'},
 		{ name: 'ban', value: 'Usage: d!ban [@member] ?[number of messages to remove] ?[reason]'},
 		{ name: 'remove', value: 'Removing number of messages. Usage: d!remove [number]'},

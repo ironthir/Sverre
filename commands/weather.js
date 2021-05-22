@@ -15,6 +15,8 @@ module.exports = {
 					.setThumbnail('https://i.imgur.com/uiFYsou.png')
 					.addFields(
 						{ name: 'Description', value:  data.weather[0].description},
+						{ name: 'Cloudiness', value:  data['clouds']['all'] + '%'},
+						{ name: 'Rain last hour', value:  data['rain']['1h'] + ' mm'},
 						{ name: 'Temperature', value: parseFloat(data['main']['temp'] - 273.15).toFixed(2) + ' °C', inline: true },
 						{ name: 'Feels like', value: parseFloat(data['main']['feels_like'] - 273.15).toFixed(2) + ' °C', inline: true },
 						{ name: '\u200B', value: '\u200B', inline: true },

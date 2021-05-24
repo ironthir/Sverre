@@ -4,16 +4,22 @@ module.exports = {
 	description: 'Latest changes!',
 	execute(receivedMessage, arguments) {
 		const patchNotes = new Discord.MessageEmbed()
-        .setColor('#0099ff')
+        .setColor('#00cc99')
         .setTitle('List of changes since last build')
         .setThumbnail('https://i.imgur.com/uiFYsou.png')
         .addFields( 
+            { name: 'Current time', value: 'Type d!time [city name] to see what time is it in a designated city'},
+            { name: 'F1 race results', value: 'Type d!f1results to see results of the last Formula One race'},
+            { name: 'Movies', value: 'Type d!movie [movie name] for information about designated movie'},
+            { name: 'COVID-19 stats', value: 'Type d!covid [country name] to get latest information about pandemic in your country.'},
+            { name: 'Air pollution', value: 'Type d!pollution [city name] to see if you are breathing clean air in your city!'},
+            { name: 'Weather forecast added!', value: 'Type d!forecast [{number of days/hours}{h or d}] [city name] to see weather forecast for your city! Example: d!forecast 3h warsaw'},
             { name: 'Weather command introduced!', value: 'You can now check weather in any place on earth just by typing d!weather [city name]. Do not use diacritical marks.'},
             { name: 'Votekick reasons added!', value: 'Now you can announce why you want to kick a member. Optional feature, "No reason" is displayed when you do not provide one.'},
-            { name: 'Disconnect command added!', value: 'It basically allows you to kick Sverre out of a voice channel'},
+           
            
         )
-        .setFooter('Build date: 22 of May, 2021', 'https://i.imgur.com/uiFYsou.png')
+        .setFooter('Build date: 24 of May, 2021', 'https://i.imgur.com/uiFYsou.png')
         .setTimestamp()
     receivedMessage.channel.send(patchNotes);
 	},

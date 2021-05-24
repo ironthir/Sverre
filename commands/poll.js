@@ -16,7 +16,7 @@ module.exports = {
                 arguments.shift();
                 let question = arguments.join(' ');
                 const pollMessage = new Discord.MessageEmbed()
-                .setColor('#0099ff')
+                .setColor('#00cc99')
                 .setTitle(question)
                 .setAuthor(sender.displayName, receivedMessage.author.avatarURL())
                 .setDescription('React as you wish!')
@@ -30,7 +30,7 @@ module.exports = {
                                 let votesNo = sentEmbed.reactions.cache.get('❌').count;
                                 let votesYes = sentEmbed.reactions.cache.get('✅').count;
                                 let results = new Discord.MessageEmbed()
-                                        .setColor('#0099ff')
+                                        .setColor('#00cc99')
                                         .setTitle(question)
                                         .setAuthor(sender.displayName, receivedMessage.author.avatarURL())
                                         .setDescription('Results from previous poll')

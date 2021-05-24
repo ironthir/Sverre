@@ -1,4 +1,3 @@
-
 const fetch = require("node-fetch");
 const Discord = require('discord.js')
 module.exports = {
@@ -10,7 +9,7 @@ module.exports = {
 			.then(response => response.json())
 			.then(data => {
 				const currentWeather = new Discord.MessageEmbed()
-					.setColor('#0099ff')
+					.setColor('#00cc99')
 					.setTitle('Weather in ' + data.name)
 					.setAuthor(receivedMessage.member.displayName, receivedMessage.author.avatarURL())
 					.setThumbnail('https://i.imgur.com/uiFYsou.png')
@@ -28,11 +27,8 @@ module.exports = {
 						{ name: 'Longitude', value:  data['coord']['lon'], inline: true},
 						{ name: 'Latitude', value:  data['coord']['lat'], inline: true},
 					)
+					.setFooter('via OpenWeather')
 					.setTimestamp();
 				receivedMessage.channel.send(currentWeather);
 			}).catch(err => receivedMessage.channel.send("You provided wrong city name or didn't provide city name at all"));
-
-		
-
-
 }}

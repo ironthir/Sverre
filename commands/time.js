@@ -5,7 +5,7 @@ module.exports = {
 	description: 'Current time in any city on Earth',
 	execute(receivedMessage, arguments) {
 		let cityName = arguments.join(' ');
-		fetch('http://api.openweathermap.org/geo/1.0/direct?q=' + cityName + '&limit=1&appid=50836ce1936b69e0671582e5558ff5c8')
+		fetch('http://api.openweathermap.org/geo/1.0/direct?q=' + cityName + '&limit=1&appid=' + process.env.WEATHER_TOKEN)
             .then(response => response.json())
             .then(data => {
 				city = data[0].name;

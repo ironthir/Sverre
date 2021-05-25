@@ -48,7 +48,7 @@ module.exports = {
                         { name: '\u200B', value: data.MRData.RaceTable.Races[0].Results[8].status, inline: true },
                     )
                     .setTimestamp()
-                    .setFooter('Page 1 out of 4');
+                    .setFooter('Page 1 out of 3');
                 receivedMessage.channel.send(lastRaceP1);
                 const lastRaceP2 = new Discord.MessageEmbed()
                 .setColor('#00cc99')

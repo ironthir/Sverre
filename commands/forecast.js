@@ -22,7 +22,7 @@ module.exports = {
              including = 'hourly';
              time = time.substr(0, time.length - 1);
              time = parseInt(time, 10);
-             if(time > 47 || time < 1){
+             if(time + 2 > 47 || time < 1){
                  receivedMessage.channel.send("Number of hours has to be between 1 and 47");
                  return;
              }
@@ -39,7 +39,7 @@ module.exports = {
                     fetch('https://api.openweathermap.org/data/2.5/onecall?lat=' + data[0].lat + '&lon='+ data[0].lon +'&units=metric&exclude=current,minutely,'+ excluding.toString() +',alerts&appid='+ process.env.WEATHER_TOKEN)
                     .then(response => response.json())
                     .then(data => {
-                        var a = new Date(data[including.toString()][time]['dt'] * 1000);
+                        var a = new Date(data[including.toString()][time+2]['dt'] * 1000);
                         var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
                         var year = a.getFullYear();
                         var month = months[a.getMonth()];
@@ -56,13 +56,13 @@ module.exports = {
                                 .setThumbnail('https://i.imgur.com/uiFYsou.png')
                                 .setDescription(forecastDate)
                                 .addFields(
-                                    { name: 'Description', value:  data[including.toString()][time]['weather'][0]['description']},
-                                    { name: 'Cloudiness', value:  data[including.toString()][time]['clouds'] + '%'},
-                                    { name: 'Daytime temperature', value: parseFloat(data[including.toString()][time]['temp']).toFixed(2) + ' °C', inline: true },
-                                    { name: 'Feels like', value: parseFloat(data[including.toString()][time]['feels_like']).toFixed(2) + ' °C', inline: true },
-                                    { name: 'Humidity', value:  data[including.toString()][time]['humidity'] + '%'},
-                                    { name: 'Pressure', value:  data[including.toString()][time]['pressure'] + ' hPa'},
-                                    { name: 'Wind speed', value:  data[including.toString()][time]['wind_speed'] + ' m/s'},
+                                    { name: 'Description', value:  data[including.toString()][time+2]['weather'][0]['description']},
+                                    { name: 'Cloudiness', value:  data[including.toString()][time+2]['clouds'] + '%'},
+                                    { name: 'Daytime temperature', value: parseFloat(data[including.toString()][time+2]['temp']).toFixed(2) + ' °C', inline: true },
+                                    { name: 'Feels like', value: parseFloat(data[including.toString()][time+2]['feels_like']).toFixed(2) + ' °C', inline: true },
+                                    { name: 'Humidity', value:  data[including.toString()][time+2]['humidity'] + '%'},
+                                    { name: 'Pressure', value:  data[including.toString()][time+2]['pressure'] + ' hPa'},
+                                    { name: 'Wind speed', value:  data[including.toString()][time+2]['wind_speed'] + ' m/s'},
                                     { name: 'Longitude', value:  data['lon'], inline: true},
                                     { name: 'Latitude', value:  data['lat'], inline: true},
                                 )

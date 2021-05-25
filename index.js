@@ -15,13 +15,13 @@ client.on('ready', () => {
     client.user.setActivity("d!commands", {type: ("PLAYING")} )
 })
 //BOT WELCOMES YOU
-client.on('message', (receivedMessage) => {
-    let oznaczenie = receivedMessage.mentions.users.first();
-    if (oznaczenie == client.user) {
-        receivedMessage.channel.send("Hello " +
-            receivedMessage.author.toString())
-    }
-})
+// client.on('message', (receivedMessage) => {
+//     let oznaczenie = receivedMessage.mentions.users.first();
+//     if (oznaczenie == client.user) {
+//         receivedMessage.channel.send("Hello " +
+//             receivedMessage.author.toString())
+//     }
+// })
 
 //TESTING IF USER TYPED A COMMAND
 client.on('message', (receivedMessage) => {

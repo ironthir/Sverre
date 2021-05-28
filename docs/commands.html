@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Sverre</title>
+      <link rel="icon" href="https://i.imgur.com/uiFYsou.png">
+      <style>
+  @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300&display=swap');
+  </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="index.js" charset="utf-8"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <header id="navbar">
+            <nav class="navbar-container container">
+              <a href="index.html" class="home-link">
+                <div class="navbar-logo">
+                  <img src="images/valknut.jpg" alt="" width="50px" height="50px">
+                </div>
+                Sverre bot
+              </a>
+              <button type="button" class="navbar-toggle" aria-label="Open navigation menu">
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+              </button>
+              <div class="navbar-menu detached">
+                <ul class="navbar-links">
+                  <li class="navbar-item"><a class="navbar-link" href="commands.html">Commands</a></li>
+                  <li class="navbar-item"><a class="navbar-link" href="/about">About</a></li>
+                </ul>
+              </div>
+            </nav>
+        </header>
+        <br><br><br><br>
+
+      <div class="container">
+        <h1>Utility Commands</h1>
+        <br>
+        <div class="row">
+          <div class="col">
+            <h4>Weather</h4>
+              You can get current weather data from 200 000 cities around the world. Example: d!weather London</h4>
+          </div>
+          <div class="col">
+            <img src="images/weather.jpg" alt="">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <h4>Weather forecast</h4>
+              Responds with weather forecast for given location. You need to specify which type of forecast you want. Hourly and daily forecast is available. Example: d!forecast 6h Oslo
+          </div>
+          <div class="col">
+            <img src="images/forecast.jpg" alt="">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <h4>Air pollution</h4>
+              Provides you with information about current air quality data for 200 000 cities around the world. Explanation of all values is available under d!pollution info. Example: d!pollution Warsaw
+          </div>
+          <div class="col">
+            <img src="images/pollution.jpg" alt="">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <h4>Current time</h4>
+              If you are curious about present time of the day in any city type d!time [city name] and Sverre will respond with some information about it.
+          </div>
+          <div class="col">
+            <img src="images/time.jpg" alt="">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <h4>Money exchange rates</h4>
+              You can check how many euros is $5 worth. Works with diffrent amounts and currencies. Example: d!moneyexchange 5 USD EUR
+          </div>
+          <div class="col">
+            <img src="images/exchangerate.jpg" alt="">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <h4>Yes/No poll</h4>
+              Create simple poll by typing d!poll [time in minutes] [question]
+          </div>
+          <div class="col">
+            <img src="images/poll.jpg" alt="">
+            <img src="images/pollresults.jpg" alt="">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <h4>Search</h4>
+             Responds with top 10 results for any given query
+          </div>
+          <div class="col">
+            <img src="images/search.jpg" alt="">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <h4>Image</h4>
+             Similar to search, but responds with random image picked from the first 20 results. Example: d!search sahara
+          </div>
+          <div class="col">
+            <img src="images/imagesearch.jpg" alt="">
+          </div>
+          <div class="row">
+            <div class="col">
+              <h4>Movie</h4>
+               Search, but you get data only about movies. Example: d!movie Iron Man
+            </div>
+            <div class="col">
+              <img src="images/movie.jpg" alt="">
+            </div>
+          </div>
+        </div>
+        <h1>Fun commands</h1>
+        <div class="row">
+          <div class="col">
+            <h4>Votekick</h4>
+             This command allows anyone to call a voting to kick given user from the server. Reason can be added, although it is not required.
+          </div>
+          <div class="col">
+            <img src="images/votekick.jpg" alt="">
+            <img src="images/votekickfailed.jpg" alt="">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <h4>Formula One results</h4>
+             Type d!f1results to see classification after last F1 race.
+          </div>
+          <div class="col">
+            <img src="images/f1.jpg" alt="">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <h4>Play audio</h4>
+             Play command makes Sverre join a voice channel that you are connected to and play audio from YouTube URL for you. Usage: d!play [YT URL]
+             There is also a disconnect command which kicks the bot out of your channel.
+          </div>
+          <div class="col">
+            <img src="images/play.jpg" alt="">
+          </div>
+        </div>
+        <br>
+        <h1>Commands for server administrators</h1>
+        <div class="row">
+          <div class="col">
+            <h4>Kick</h4>
+             Kicking a user has never been easier. Type d!kick [@user] [reason] to kick anyone out of the server. You need permission to kick members to do that. Reason is not required.
+          </div>
+          <div class="col">
+            <img src="images/kick.jpg" alt="">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <h4>Ban</h4>
+             Banning is also very easy. Type d!ban [@user] [number of their messages to be removed] [reason] to ban anyone from the server. You need permission to ban members to do that. Reason and number of messages are not required.
+          </div>
+          <div class="col">
+            <img src="images/ban.jpg" alt="">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <h4>Remove</h4>
+            You can remove up to 100 messages from any given channel. Only one hundred because there is a limit for Discord bots.
+          </div>
+          <div class="col">
+
+          </div>
+        </div>
+        <br><br>
+      </div>
+
+          <div class="footer-dark">
+         <footer>
+             <div class="container">
+                 <div class="row">
+                     <div class="col-sm-6 col-md-3 item">
+                         <h3>Navigation</h3>
+                         <ul>
+                             <li><a href="commands.html">Commands</a></li>
+                             <li><a href="#">About</a></li>
+                             <li><a href="https://discord.com/api/oauth2/authorize?client_id=714172010879516733&permissions=8&scope=bot">Invite Sverre</a></li>
+                         </ul>
+                     </div>
+                     <div class="col-sm-6 col-md-3 item">
+                        <br>
+                         <ul>
+                             <li><a href="https://github.com/ironthir/Sverre">GitHub repository</a></li>
+                             <li><a href="https://github.com/ironthir/Sverre/blob/master/LICENSE">License</a></li>
+                             <li><a href="#">Top.gg</a></li>
+
+                         </ul>
+                     </div>
+                     <div class="col-md-6 item text">
+                         <h3>Company Name</h3>
+                         <p>Praesent sed lobortis mi. Suspendisse vel placerat ligula. Vivamus ac sem lacus. Ut vehicula rhoncus elementum. Etiam quis tristique lectus. Aliquam in arcu eget velit pulvinar dictum vel in justo.</p>
+                     </div>
+
+                 </div>
+             </div>
+             <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+             <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
+         </footer>
+       </div>
+  </body>
+</html>

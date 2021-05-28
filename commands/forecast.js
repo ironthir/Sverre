@@ -23,7 +23,7 @@ module.exports = {
              time = time.substr(0, time.length - 1);
              time = parseInt(time, 10);
              if(time + 2 > 47 || time < 1){
-                 receivedMessage.channel.send("Number of hours has to be between 1 and 47");
+                 receivedMessage.channel.send("Number of hours has to be between 1 and 45");
                  return;
              }
         }
@@ -32,29 +32,21 @@ module.exports = {
         }
         arguments.shift();
 		let city = arguments.join(' '); 
-		fetch('http://api.openweathermap.org/geo/1.0/direct?q=' + city + '&limit=1&appid='+ process.env.WEATHER_TOKEN)
+		fetch('http://api.openweathermap.org/geo/1.0/direct?q=' + city + '&limit=1&appid=' + process.env.WEATHER_TOKEN)
 			.then(response => response.json())
 			.then(data => {
                 city = data[0].name;
-                    fetch('https://api.openweathermap.org/data/2.5/onecall?lat=' + data[0].lat + '&lon='+ data[0].lon +'&units=metric&exclude=current,minutely,'+ excluding.toString() +',alerts&appid='+ process.env.WEATHER_TOKEN)
+                    fetch('https://api.openweathermap.org/data/2.5/onecall?lat=' + data[0].lat + '&lon='+ data[0].lon +'&units=metric&exclude=current,minutely,'+ excluding.toString() +',alerts&appid=' + process.env.WEATHER_TOKEN)
                     .then(response => response.json())
                     .then(data => {
-                        var a = new Date(data[including.toString()][time+2]['dt'] * 1000);
-                        var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-                        var year = a.getFullYear();
-                        var month = months[a.getMonth()];
-                        var date = a.getDate();
-                        var hour = a.getHours();
-                        var min = a.getMinutes();
-                        min = min.toString();
-                        var forecastDate = date + ' ' + month + ' ' + year + ' ' + hour + ':00';
                         if(including == 'hourly'){
+                            let a = new Date(data[including.toString()][time+2]['dt'] * 1000)
                             let weatherHourlyForecast = new Discord.MessageEmbed()
                                 .setColor('#00cc99')
                                 .setTitle('Weather forecast for ' + city)
                                 .setAuthor(receivedMessage.member.displayName, receivedMessage.author.avatarURL())
                                 .setThumbnail('https://i.imgur.com/uiFYsou.png')
-                                .setDescription(forecastDate)
+                                .setDescription(unixToStandard(a))
                                 .addFields(
                                     { name: 'Description', value:  data[including.toString()][time+2]['weather'][0]['description']},
                                     { name: 'Cloudiness', value:  data[including.toString()][time+2]['clouds'] + '%'},
@@ -71,12 +63,13 @@ module.exports = {
                             receivedMessage.channel.send(weatherHourlyForecast);
                         }
                         else{
+                           let a = new Date(data[including.toString()][time]['dt'] * 1000)
                            let weatherDailyForecast = new Discord.MessageEmbed()
                                 .setColor('#00cc99')
                                 .setTitle('Weather forecast for ' + city)
                                 .setAuthor(receivedMessage.member.displayName, receivedMessage.author.avatarURL())
                                 .setThumbnail('https://i.imgur.com/uiFYsou.png')
-                                .setDescription(forecastDate)
+                                .setDescription(unixToStandard(a))
                                 .addFields(
                                     { name: 'Description', value:  data[including.toString()][time]['weather'][0]['description']},
                                     { name: 'Cloudiness', value:  data[including.toString()][time]['clouds'] + '%'},
@@ -101,7 +94,18 @@ module.exports = {
                                 .setTimestamp();
                             receivedMessage.channel.send(weatherDailyForecast);
                         }
-                    }).catch(err => receivedMessage.channel.send("Weather forecast is not available for this location"));
+                        function unixToStandard(a){
+                            let months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+                            let year = a.getFullYear();
+                            let month = months[a.getMonth()];
+                            let date = a.getDate();
+                            let hour = a.getHours();
+                            let min = a.getMinutes().toString();
+                            let sec = a.getSeconds().toString();
+                            let currentDate = date + ' ' + month + ' ' + year + ' ' + hour + ':00';
+                            return currentDate;
+                        }
+                    }).catch(err => console.log(err));
 			}).catch(err => receivedMessage.channel.send("You provided wrong city name, didn't provide city name at all or weather forecast is not available for this place"));
 
 }}

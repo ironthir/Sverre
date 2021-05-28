@@ -6,7 +6,8 @@ module.exports = {
 	execute(receivedMessage, arguments) {
         let originalQ = arguments.join(' ');
 		let question = arguments.join('%20');
-		fetch("https://contextualwebsearch-websearch-v1.p.rapidapi.com/api/Search/ImageSearchAPI?q="+ question +"&pageNumber=1&pageSize=20&autoCorrect=true", {
+        console.log(question);
+		fetch("https://contextualwebsearch-websearch-v1.p.rapidapi.com/api/Search/ImageSearchAPI?q="+ question +"&pageNumber=1&pageSize=20&autoCorrect=false", {
             "method": "GET",
             "headers": {
                 "x-rapidapi-key": process.env.XRAPID_KEY,

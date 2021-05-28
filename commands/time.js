@@ -12,7 +12,7 @@ module.exports = {
 				fetch('http://api.timezonedb.com/v2.1/get-time-zone?key='+ process.env.TIMEZONE_TOKEN +'&format=json&by=position&lat='+ data[0].lat +'&lng=' + data[0].lon)
 					.then(response => response.json())
 					.then(data => {
-						let a = new Date((data.timestamp - 7200) * 1000);
+						let a = new Date((data.timestamp) * 1000);
 						let gmt = 'GMT+';
 						if(data.gmtOffset < 0){
 							gmt = 'GMT';

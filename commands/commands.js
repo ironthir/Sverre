@@ -19,6 +19,7 @@
 		{ name: 'convertmoney', value: 'Converts money value between currencies. Usage d!convertmoney [amount] [from] [to]. List of supported currencies under d!currencies'},
         { name: 'love', value: 'Cute animal pics. Usage: d!love'},
         { name: 'coffee', value: 'Best wishes for your coffee (only in polish). Usage: d!coffee'},
+		{ name: 'joke', value: 'Sverre tells you a joke. Usage: d!joke [theme]'},
 		{ name: 'poll', value: 'Simple yes/no poll. Usage: d!poll [time in minutes] [question to ask]'},
 		{ name: 'weather', value: 'Current weather in any city on Earth. Usage: d!weather [city name]. Do not use diacritical marks'},
 		{ name: 'forecast', value: 'Weather forecast for your city. Usage: d!forecast [{number of days/hours}{h or d}] [city name] Example: d!forecast 3h warsaw. Do not use diacritical marks'},
@@ -28,6 +29,7 @@
 		{ name: 'kick', value: 'Usage: d!kick [@member] ?[reason]'},
 		{ name: 'ban', value: 'Usage: d!ban [@member] ?[number of messages to remove] ?[reason]'},
 		{ name: 'remove', value: 'Removing number of messages. Usage: d!remove [number]'},
+		{ name: 'changeprefix', value: 'Change prefix for your server. Usage: d!changeprefix [new prefix]'},
 		{ name: 'bug', value: 'Use this to gain access to a Google form where you can report encountered issues'},
         )
     .setTimestamp()

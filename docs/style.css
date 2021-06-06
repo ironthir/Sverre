@@ -272,6 +272,7 @@ main {
 body{
    background-color: #36393f ;
 }
+img { max-width: 115%; height: auto; }
 ::selection{
   color: none;
   background: none;

@@ -1,5 +1,5 @@
-const navbar = document.getElementById("navbar");
-const navbarToggle = navbar.querySelector(".navbar-toggle");
+const navbar = document.getElementById('navbar');
+const navbarToggle = navbar.querySelector('.navbar-toggle');
 
 function openMobileNavbar() {
   navbar.classList.add("opened");
@@ -27,13 +27,3 @@ navbarLinksContainer.addEventListener("click", (clickEvent) => {
 });
 
 navbarMenu.addEventListener("click", closeMobileNavbar);
-
-document
-  .getElementById("options")
-  .querySelectorAll("input[name='navtype']")
-  .forEach((option) => {
-    option.addEventListener("change", (e) => {
-      const navType = e.target.id.split("-").join(" ");
-      navbarMenu.classList = "navbar-menu " + navType;
-    });
-  });

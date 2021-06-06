@@ -41,10 +41,10 @@ module.exports = {
                     receivedMessage.channel.send("Good, but not quite there yet. " + data.fname + " and " + data.sname + " scored " + data.percentage + "% on love calculator :heart:");
                     break;
                 case parseInt(data.percentage, 10) >= 80 &&  parseInt(data.percentage, 10) < 100:
-                    receivedMessage.channel.send(data.fname + " and " + data.sname + " are almost perfect match! They scored " + data.percentage + "% :two_hearts");
+                    receivedMessage.channel.send(data.fname + " and " + data.sname + " are almost perfect match! They scored " + data.percentage + "% :two_hearts:");
                     break;
                 case parseInt(data.percentage, 10) === 100:
-                    receivedMessage.channel.send("PERFECT MATCH! " + data.fname + " and " + data.sname + " scored 100%! Quick! Arrange a wedding for these two! :revolving_hearts");
+                    receivedMessage.channel.send("PERFECT MATCH! " + data.fname + " and " + data.sname + " scored 100%! Quick! Arrange a wedding for these two! :revolving_hearts:");
                     break;
                 default:
                     console.log("something went wrong");

@@ -2,7 +2,7 @@ const fetch = require("node-fetch");
 const Discord = require('discord.js')
 module.exports = {
 	name: 'covid',
-	description: 'Current weather status for your city',
+	description: 'Covid-19 stats for designated country',
 	execute(receivedMessage, arguments) {
 		let countryName = arguments.join('%20');
 		fetch('https://covid19-api.com/country?name=' + countryName +  '&format=json')

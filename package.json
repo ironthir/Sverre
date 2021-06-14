@@ -18,9 +18,11 @@
   "homepage": "https://github.com/ironthir/Project-Zero-Dawn#readme",
   "dependencies": {
     "@discordjs/opus": "^0.5.0",
+    "canvas": "^2.8.0",
     "discord.js": "^12.5.3",
     "ffmpeg": "0.0.4",
     "ffmpeg-static": "^4.3.0",
+    "merge-images": "^2.0.0",
     "node-fetch": "^2.6.1",
     "sequelize": "^6.6.2",
     "snoowrap": "^1.23.0",

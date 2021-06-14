@@ -3,46 +3,47 @@ const fs = require('fs');
 const {prefix} = require('./config.json');
 const client = new Discord.Client();
 const Sequelize = require('sequelize');
-const { send } = require('process');
+const titles = require('./storage/titles');
 const votekickCooldown = new Set();
+const talkedRecently = new Set();
 client.commands = new Discord.Collection();
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 for (const file of commandFiles) {
 	const command = require(`./commands/${file}`);
 	client.commands.set(command.name, command);
 }
+function calculateLogarithm(base, x) {
+	var a = Math.log(x);
+    var b = Math.log(base);
+    return a / b;
+}
+const levels = [];
+
+for(var i = 0; i < 50; i++){
+    levels[i] = Math.round(110 + Math.pow((i + 1 + 20 * calculateLogarithm(5, i + 1)), 2));
+}
+
+//databases
 const sequelize = new Sequelize('database', 'user', 'password', {
 	host: 'localhost',
 	dialect: 'sqlite',
 	logging: false,
 	// SQLite only
-	storage: 'database.sqlite',
+	storage: './storage/database.sqlite',
 });
-const Prefixes = sequelize.define('prefixes', {
-	name: {
-		type: Sequelize.STRING,
-		unique: true,
-	},
-	serverPrefix: Sequelize.STRING,
-});
-const money = sequelize.define('money', {
-	userID: {
-		type: Sequelize.STRING,
-		unique: true,
-	},
-	balance: Sequelize.STRING,
-});
+ 
+const Prefixes = require('./storage/Prefixes')(sequelize, Sequelize.DataTypes);
+const experience = require('./storage/experience')(sequelize, Sequelize.DataTypes);
+const money = require('./storage/money')(sequelize, Sequelize.DataTypes);
 client.on('ready', () => {
     console.log("Connected as " + client.user.tag)
     client.user.setActivity("d!commands", {type: ("PLAYING")} )
-    Prefixes.sync();
-    money.sync();
 })
-
-//BOT WELCOMES YOU
+//bot tells you its prefix
 client.on('message', async (receivedMessage) => {
     let oznaczenie = receivedMessage.mentions.users.first();
-    if (oznaczenie == client.user) {
+    let temp = receivedMessage.toString();
+    if (oznaczenie == client.user && temp.includes("prefix")) {
         let server = await Prefixes.findOne({ where: { name: receivedMessage.guild.id } });
         if(server){
             receivedMessage.channel.send("Hello " + receivedMessage.author.toString() + ". My prefix here is " + server.serverPrefix)
@@ -54,7 +55,48 @@ client.on('message', async (receivedMessage) => {
         }
     }
 })
-
+//leveling system
+client.on('message', async receivedMessage => {
+    if(!talkedRecently.has(receivedMessage.author.id) && !receivedMessage.author.bot){
+        const row = await experience.findOne({where: {serverid: receivedMessage.guild.id, userid: receivedMessage.author.id}})
+        let multiplier = 1;
+        if(receivedMessage.length < 4){
+            multiplier = 0.5;
+        }
+        else if(receivedMessage.length > 3 && receivedMessage.length < 8){
+            multiplier = 0.75;
+        }
+        else if(receivedMessage.length > 25){
+            multiplier = 1.3;
+        }
+        if(row){
+            let pointsAdded = Math.floor(Math.random() * (20 - 14 + 1)) + 14;
+            pointsAdded *= multiplier;
+            pointsAdded = Math.round(pointsAdded);
+            experience.increment('points', { by: pointsAdded, where: {userid: receivedMessage.author.id, serverid: receivedMessage.guild.id}});
+            if(row.points > levels[row.level]){
+                receivedMessage.channel.send("Congratulations <@" + receivedMessage.author.id + ">, you just reached level " + (parseInt(row.level, 10) + 1));
+                experience.increment('level', {by: 1, where: {userid: receivedMessage.author.id, serverid: receivedMessage.guild.id}})
+            }
+           
+        }
+        else{
+            let pointsAdded = Math.floor(Math.random() * (30 - 14 + 1)) + 14;
+            pointsAdded = Math.round(pointsAdded * 1.5)
+            experience.create({
+                serverid: receivedMessage.guild.id,
+                userid: receivedMessage.author.id,
+                points: pointsAdded,
+                level: 0,
+            })
+        }
+        talkedRecently.add(receivedMessage.author.id);
+        setTimeout(() => {
+            talkedRecently.delete(receivedMessage.author.id)
+        }, 30000);
+    }
+    
+})
 //TESTING IF USER TYPED A COMMAND
 client.on('message', async receivedMessage => {
     if(receivedMessage.length > 3 && !receivedMessage.author.bot){
@@ -153,4 +195,4 @@ async function processCommand(receivedMessage, currPrefix) {
     
     
 }
-client.login(process.env.TOKEN);
+client.login('ODExNjI5NTQwMDgyMzE5Mzgw.YC0-6Q.GCEgTn7kfRCbeCO9g7QFqtdTHhI');

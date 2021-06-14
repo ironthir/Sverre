@@ -4,6 +4,9 @@ module.exports = {
 	name: 'convertmoney',
 	description: 'Exchanging money',
 	execute(receivedMessage, arguments) {
+        if(arguments.length < 3){
+            return;
+        }
         let amount = arguments[0];
         arguments.shift();
         let from = arguments[0];
@@ -26,6 +29,6 @@ module.exports = {
                     .setFooter('Type d!currencies to see all supported exchange rates')
                     .setTimestamp();
 				    receivedMessage.channel.send(value);
-            }).catch(err => receivedMessage.channel.send("Correct usage: d!convertmoney [amount] [from] [to]. Example: d!convertmoney 5 EUR USD List of supported currencies: d!currencies"))
+            }).catch(err => receivedMessage.channel.send("Correct usage: d!convertmoney [amount] [from] [to]. Example: d!convertmoney 5 EUR USD. List of supported currencies: d!currencies"))
 
 }}

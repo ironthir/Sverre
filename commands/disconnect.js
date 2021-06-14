@@ -1,7 +1,5 @@
 const Discord = require('discord.js')
-const  {
-    Util
-} = require("discord.js");
+const  {Util} = require("discord.js");
 const client = new Discord.Client();
 module.exports = {
 	name: 'disconnect',

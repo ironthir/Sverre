@@ -12,7 +12,6 @@ module.exports = {
                   .setTitle(data.title)
                   .setImage(data.url)
                   .setTimestamp()
-                  .setFooter(data.copyright);
               receivedMessage.channel.send(picture);
       }).catch(err => receivedMessage.channel.send("You provided incorrect name or data for that movie is not available."))
 }}

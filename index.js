@@ -3,7 +3,6 @@ const fs = require('fs');
 const {prefix} = require('./config.json');
 const client = new Discord.Client();
 const Sequelize = require('sequelize');
-const titles = require('./storage/titles');
 const votekickCooldown = new Set();
 const talkedRecently = new Set();
 client.commands = new Discord.Collection();
@@ -12,15 +11,10 @@ for (const file of commandFiles) {
 	const command = require(`./commands/${file}`);
 	client.commands.set(command.name, command);
 }
-function calculateLogarithm(base, x) {
-	var a = Math.log(x);
-    var b = Math.log(base);
-    return a / b;
-}
 const levels = [];
 
 for(var i = 0; i < 50; i++){
-    levels[i] = Math.round(110 + Math.pow((i + 1 + 20 * calculateLogarithm(5, i + 1)), 2));
+    levels[i] = Math.round(16 * i * i + 150 * i + 100);
 }
 
 //databases
@@ -31,14 +25,16 @@ const sequelize = new Sequelize('database', 'user', 'password', {
 	// SQLite only
 	storage: './storage/database.sqlite',
 });
- 
+
 const Prefixes = require('./storage/Prefixes')(sequelize, Sequelize.DataTypes);
 const experience = require('./storage/experience')(sequelize, Sequelize.DataTypes);
 const money = require('./storage/money')(sequelize, Sequelize.DataTypes);
 client.on('ready', () => {
     console.log("Connected as " + client.user.tag)
     client.user.setActivity("d!commands", {type: ("PLAYING")} )
+   
 })
+
 //bot tells you its prefix
 client.on('message', async (receivedMessage) => {
     let oznaczenie = receivedMessage.mentions.users.first();
@@ -70,7 +66,7 @@ client.on('message', async receivedMessage => {
             multiplier = 1.3;
         }
         if(row){
-            let pointsAdded = Math.floor(Math.random() * (20 - 14 + 1)) + 14;
+            let pointsAdded = Math.floor(Math.random() * (13 - 7 + 1)) + 7 ;
             pointsAdded *= multiplier;
             pointsAdded = Math.round(pointsAdded);
             experience.increment('points', { by: pointsAdded, where: {userid: receivedMessage.author.id, serverid: receivedMessage.guild.id}});
@@ -81,7 +77,7 @@ client.on('message', async receivedMessage => {
            
         }
         else{
-            let pointsAdded = Math.floor(Math.random() * (30 - 14 + 1)) + 14;
+            let pointsAdded = Math.floor(Math.random() * (13 - 7 + 1)) + 7;
             pointsAdded = Math.round(pointsAdded * 1.5)
             experience.create({
                 serverid: receivedMessage.guild.id,
@@ -99,18 +95,20 @@ client.on('message', async receivedMessage => {
 })
 //TESTING IF USER TYPED A COMMAND
 client.on('message', async receivedMessage => {
-    if(receivedMessage.length > 3 && !receivedMessage.author.bot){
+    if(receivedMessage.toString().length > 5 &&  !receivedMessage.author.bot){
         const userID = await money.findOne({where: {userID: receivedMessage.author.id}})
         if(userID){
             money.update({ balance: Sequelize.literal('balance + 4') }, { where: { userID: receivedMessage.author.id } }); 
         }
         else{
-            const createdAccount = await money.create({
+         await money.create({
                 userID: receivedMessage.author.id,
                 balance: 4,
             });
+           
         }
     }
+
     const isInDb = await Prefixes.findOne({where: {name: receivedMessage.guild.id}})
     if (receivedMessage.content.startsWith(prefix) && !receivedMessage.author.bot && !isInDb) {
         processCommand(receivedMessage, prefix)
@@ -155,33 +153,6 @@ async function processCommand(receivedMessage, currPrefix) {
             votekickCooldown.delete(receivedMessage.guild.id);
          }, 210000);
     }
-    }else if(command == "changeprefix"){
-        if(!receivedMessage.member.hasPermission("ADMINISTRATOR")){
-            receivedMessage.channel.send("You do not have permissions to change prefix on this server");
-            return;
-        }
-        if(arguments.length == 0){
-            receivedMessage.channel.send("You did not provide any prefix!")
-            return;
-        }
-        try {
-            const isInDb = await Prefixes.findOne({where: {name: receivedMessage.guild.id}})
-            if(isInDb){
-                const changingPrefix = await Prefixes.update({ serverPrefix: arguments[0].toString()}, { where: { name: receivedMessage.guild.id} });  
-                return receivedMessage.channel.send("Sverre prefix for this server has been set to " + arguments[0])
-            }
-            else{
-                const addedPrefix = await Prefixes.create({
-                    name: receivedMessage.guild.id,
-                    serverPrefix: arguments[0].toString(),
-                });
-                return receivedMessage.channel.send("Sverre prefix for this server has been set to " + arguments)
-            }
-           
-        }
-        catch (e) {
-            return console.log(e);
-        }
     }
     else{
         if (!client.commands.has(command)) return;
@@ -195,4 +166,4 @@ async function processCommand(receivedMessage, currPrefix) {
     
     
 }
-client.login('ODExNjI5NTQwMDgyMzE5Mzgw.YC0-6Q.GCEgTn7kfRCbeCO9g7QFqtdTHhI');
+client.login(process.env.TOKEN);

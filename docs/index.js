@@ -1,7 +1,6 @@
 const navbar = document.getElementById("navbar");
-if(navbar != null){
-  const navbarToggle = navbar.querySelector(".navbar-toggle");
-}
+const navbarToggle = navbar.querySelector(".navbar-toggle");
+
 
 
 function openMobileNavbar() {

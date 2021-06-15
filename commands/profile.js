@@ -6,10 +6,8 @@ module.exports = {
 	name: 'profile',
 	description: 'Profile card',
 	async execute(receivedMessage, arguments) {
-		const levels = [];
-		
-		for(var i = 0; i < 50; i++){
-			levels[i] = Math.round(16 * i * i + 150 * i + 100);
+		function expRequired(n){
+			return 16 * n * n + 150 * n + 100;
 		}
 		const sequelize = new Sequelize('database', 'user', 'password', {
 			host: 'localhost',
@@ -20,42 +18,42 @@ module.exports = {
 		});
 		const experience = require('../storage/experience')(sequelize, Sequelize.DataTypes);
 		const description = require('../storage/description')(sequelize, Sequelize.DataTypes);
+		const inventory = require('../storage/inventory')(sequelize, Sequelize.DataTypes);
+		const money = require('../storage/money')(sequelize, Sequelize.DataTypes);
 		const applyText = (canvas, text) => {
 			const context = canvas.getContext('2d');
 			// Declare a base size of the font
 			let fontSize = 40 ;
 			let height = 125;
 			while (context.measureText(text).width > canvas.width - 205);{
-				// Assign the font to the context and decrement it so it can be measured again
 				context.font = `${fontSize -= 6}px SeoulNamsan CM`;
 				height -= 1;
-				// Compare pixel width of the text to the canvas minus the approximate avatar size
 			} 
-		
-			// Return the result to use in the actual canvas
 			return [context.font, height];
 		};
 		const canvas = Canvas.createCanvas(552, 400);
 		const context = canvas.getContext('2d');
-		const background = await Canvas.loadImage('./template.png');
+		const background = await Canvas.loadImage('./images/profile/template.png');
+		const target = receivedMessage.mentions.users.first() || receivedMessage.author;
 		context.drawImage(background, 0, 0, canvas.width, canvas.height);
 
-		let val = applyText(canvas, receivedMessage.member.user.tag);
+		let val = applyText(canvas, target.tag.slice(0, -5));
 		let size = val[0];
 		let h = val[1];
 		context.font = size;
 		context.fillStyle = '#ffffff';
-		context.fillText(receivedMessage.member.user.tag, 175, h);		
-		const user = await experience.findOne({where: {serverid: receivedMessage.guild.id, userid: receivedMessage.author.id}})
+		context.fillText(target.tag, 175, h);
+
+		const user = await experience.findOne({where: {serverid: receivedMessage.guild.id, userid: target.id}})
 		let percent = 0;
 		let userLevel = 0;
 		if(user){
 			userLevel = user.level;
-			if(userLevel === 0){
+			if(userLevel == 0){
 				percent = user.points / 100;
 			}
 			else{
-				percent = (user.points - levels[user.level - 1])/ (levels[user.level] - levels[user.level - 1]);
+				percent = (user.points - expRequired(user.level - 1))/ (expRequired(user.level) - expRequired(user.level - 1));
 			}
 			
 		}
@@ -70,7 +68,24 @@ module.exports = {
 
 		context.font = '48px SeoulHangang CBL';
 		context.fillStyle = '#ffffff';
-		context.fillText("LV. " + userLevel , 403, 55);
+		context.fillText("LV. " + userLevel , 418, 55);
+
+		const inv = await inventory.findOne({where: {userID: target.id, equipped: true}})
+		if(inv){
+			context.font = '25px SeoulNamsan CM';
+			context.fillStyle = '#009994';
+			context.textAlign = "right";
+			context.fillText(inv.itemname, 197, 286);
+
+		}
+		 const bal = await money.findOne({where: {userID: target.id}})
+		if(bal){
+		 	context.font = '25px SeoulNamsan CM';
+			context.fillStyle = '#009994';
+			context.textAlign = "right";
+		 	context.fillText("$" + bal.balance, 197, 376);
+		 }
+		
 
 		function wrapText(context, text, x, y, maxWidth, lineHeight) {
 			var words = text.split(' ');
@@ -90,15 +105,15 @@ module.exports = {
 			  }
 			}
 			context.fillText(line, x, y);
-		  }
-		const userDesc = await description.findOne({where: {userid: receivedMessage.author.id}})
+		}
+		const userDesc = await description.findOne({where: {userid: target.id}})
 		if(userDesc){
-			context.font = '15px Roboto';
-			wrapText(context, userDesc.desc, 258, 280, 240, 24)
+			context.font = '16px Roboto';
+			wrapText(context, userDesc.desc, 258, 280, 220, 24)
 		}
 		
 		
-		const avatar = await Canvas.loadImage(receivedMessage.author.displayAvatarURL({ format: 'jpg' }));
+		const avatar = await Canvas.loadImage(target.displayAvatarURL({ format: 'jpg' }));
 		context.beginPath();
 		context.arc(96, 113, 55, 0, Math.PI * 2, true);
 		context.closePath();

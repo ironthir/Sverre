@@ -51,8 +51,25 @@ client.on('message', async (receivedMessage) => {
         }
     }
 })
+function expRequired(n){
+    return 16 * n * n + 150 * n + 100;
+}
 //leveling system
 client.on('message', async receivedMessage => {
+    client.user.setActivity("d!commands", {type: ("PLAYING")} )
+    //triggering commands
+    const isInDb = await Prefixes.findOne({where: {name: receivedMessage.guild.id}})
+    if (receivedMessage.content.startsWith(prefix) && !receivedMessage.author.bot && !isInDb) {
+        processCommand(receivedMessage, prefix)
+        return;
+    }
+    else if(isInDb){
+            if(receivedMessage.content.startsWith(isInDb.serverPrefix) && !receivedMessage.author.bot){
+                processCommand(receivedMessage, isInDb.serverPrefix)
+                return;
+            }
+    }
+    //gaining experience
     if(!talkedRecently.has(receivedMessage.author.id) && !receivedMessage.author.bot){
         const row = await experience.findOne({where: {serverid: receivedMessage.guild.id, userid: receivedMessage.author.id}})
         let multiplier = 1;
@@ -70,7 +87,7 @@ client.on('message', async receivedMessage => {
             pointsAdded *= multiplier;
             pointsAdded = Math.round(pointsAdded);
             experience.increment('points', { by: pointsAdded, where: {userid: receivedMessage.author.id, serverid: receivedMessage.guild.id}});
-            if(row.points > levels[row.level]){
+            if(row.points + pointsAdded > expRequired(row.level)){
                 receivedMessage.channel.send("Congratulations <@" + receivedMessage.author.id + ">, you just reached level " + (parseInt(row.level, 10) + 1));
                 experience.increment('level', {by: 1, where: {userid: receivedMessage.author.id, serverid: receivedMessage.guild.id}})
             }
@@ -91,14 +108,11 @@ client.on('message', async receivedMessage => {
             talkedRecently.delete(receivedMessage.author.id)
         }, 30000);
     }
-    
-})
-//TESTING IF USER TYPED A COMMAND
-client.on('message', async receivedMessage => {
+    //earning money
     if(receivedMessage.toString().length > 5 &&  !receivedMessage.author.bot){
         const userID = await money.findOne({where: {userID: receivedMessage.author.id}})
         if(userID){
-            money.update({ balance: Sequelize.literal('balance + 4') }, { where: { userID: receivedMessage.author.id } }); 
+            money.update({ balance: Sequelize.literal('balance + 2500') }, { where: { userID: receivedMessage.author.id } }); 
         }
         else{
          await money.create({
@@ -107,16 +121,6 @@ client.on('message', async receivedMessage => {
             });
            
         }
-    }
-
-    const isInDb = await Prefixes.findOne({where: {name: receivedMessage.guild.id}})
-    if (receivedMessage.content.startsWith(prefix) && !receivedMessage.author.bot && !isInDb) {
-        processCommand(receivedMessage, prefix)
-    }
-    else if(isInDb){
-            if(receivedMessage.content.startsWith(isInDb.serverPrefix) && !receivedMessage.author.bot){
-                processCommand(receivedMessage, isInDb.serverPrefix)
-            }
     }
 })
 //CHCECKING WHICH COMMAND USER TYPED

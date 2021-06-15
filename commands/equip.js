@@ -19,11 +19,11 @@ module.exports = {
             receivedMessage.channel.send("You do not have that item. Use **inventory** to see your inventory.");
             return;
         }
-        const itemDeEquiped = inventory.findOne({where: {userID: receivedMessage.author.id, equiped: true}})
+        const itemDeEquiped = inventory.findOne({where: {userID: receivedMessage.author.id, equipped: true}})
         if(itemDeEquiped){
-            await inventory.update({ equiped: false}, { where: { userID: receivedMessage.author.id} });
+            await inventory.update({ equipped: false}, { where: { userID: receivedMessage.author.id} });
         }
-        await inventory.update({equiped: true}, {where: {userID: receivedMessage.author.id, itemname: stringArgs}})
+        await inventory.update({equipped: true}, {where: {userID: receivedMessage.author.id, itemname: stringArgs}})
         receivedMessage.channel.send("Equipped successfully");
 
 

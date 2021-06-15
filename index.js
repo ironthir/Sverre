@@ -112,7 +112,7 @@ client.on('message', async receivedMessage => {
     if(receivedMessage.toString().length > 5 &&  !receivedMessage.author.bot){
         const userID = await money.findOne({where: {userID: receivedMessage.author.id}})
         if(userID){
-            money.update({ balance: Sequelize.literal('balance + 2500') }, { where: { userID: receivedMessage.author.id } }); 
+            money.update({ balance: Sequelize.literal('balance + 4') }, { where: { userID: receivedMessage.author.id } }); 
         }
         else{
          await money.create({

@@ -104,12 +104,12 @@ module.exports = {
 				line = testLine;
 			  }
 			}
-			context.fillText(line, x, y);
+			context.fillText(line, x, y, 250);
 		}
 		const userDesc = await description.findOne({where: {userid: target.id}})
 		if(userDesc){
 			context.font = '16px Roboto';
-			wrapText(context, userDesc.desc, 258, 280, 220, 24)
+			wrapText(context, userDesc.desc, 258, 280, 245, 24)
 		}
 		
 		

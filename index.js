@@ -54,7 +54,7 @@ client.on('message', async (receivedMessage) => {
 function expRequired(n){
     return 16 * n * n + 150 * n + 100;
 }
-//leveling system
+//leveling system, earning money and command detector
 client.on('message', async receivedMessage => {
     client.user.setActivity("d!commands", {type: ("PLAYING")} )
     //triggering commands
@@ -167,7 +167,5 @@ async function processCommand(receivedMessage, currPrefix) {
             console.error(error);
         }
     }
-    
-    
 }
 client.login(process.env.TOKEN);

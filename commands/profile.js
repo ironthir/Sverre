@@ -42,7 +42,7 @@ module.exports = {
 		let h = val[1];
 		context.font = size;
 		context.fillStyle = '#ffffff';
-		context.fillText(target.tag, 175, h);
+		context.fillText(target.tag.slice(0, -5), 175, h);
 
 		const user = await experience.findOne({where: {serverid: receivedMessage.guild.id, userid: target.id}})
 		let percent = 0;
@@ -70,23 +70,6 @@ module.exports = {
 		context.fillStyle = '#ffffff';
 		context.fillText("LV. " + userLevel , 418, 55);
 
-		const inv = await inventory.findOne({where: {userID: target.id, equipped: true}})
-		if(inv){
-			context.font = '25px SeoulNamsan CM';
-			context.fillStyle = '#009994';
-			context.textAlign = "right";
-			context.fillText(inv.itemname, 197, 286);
-
-		}
-		 const bal = await money.findOne({where: {userID: target.id}})
-		if(bal){
-		 	context.font = '25px SeoulNamsan CM';
-			context.fillStyle = '#009994';
-			context.textAlign = "right";
-		 	context.fillText("$" + bal.balance, 197, 376);
-		 }
-		
-
 		function wrapText(context, text, x, y, maxWidth, lineHeight) {
 			var words = text.split(' ');
 			var line = '';
@@ -109,9 +92,31 @@ module.exports = {
 		const userDesc = await description.findOne({where: {userid: target.id}})
 		if(userDesc){
 			context.font = '16px Roboto';
-			wrapText(context, userDesc.desc, 258, 280, 245, 24)
+			context.fillStyle = '#009994';
+			wrapText(context, userDesc.desc, 273, 280, 245, 24)
 		}
 		
+		const inv = await inventory.findOne({where: {userID: target.id, equipped: true}})
+		if(inv){
+			context.font = '25px SeoulNamsan CM';
+			context.fillStyle = '#009994';
+			context.textAlign = "right";
+			context.fillText(inv.itemname, 197, 286);
+
+		}
+		 const bal = await money.findOne({where: {userID: target.id}})
+		if(bal){
+		 	context.font = '25px SeoulNamsan CM';
+			context.fillStyle = '#009994';
+			context.textAlign = "right";
+		 	context.fillText("$" + bal.balance, 197, 376);
+		 }
+		 else{
+			context.font = '25px SeoulNamsan CM';
+			context.fillStyle = '#009994';
+			context.textAlign = "right";
+		 	context.fillText("$0");
+		 }
 		
 		const avatar = await Canvas.loadImage(target.displayAvatarURL({ format: 'jpg' }));
 		context.beginPath();

@@ -2,7 +2,7 @@ const Discord = require('discord.js')
 module.exports = {
 
 	name: 'bug',
-	description: 'Getting rid of messages',
+	description: 'Bug report form',
 	execute(receivedMessage, arguments) {
         let issue = new Discord.MessageEmbed()
         .setColor('#0099ff')

@@ -8,7 +8,6 @@ const sequelize = new Sequelize('database', 'user', 'password', {
 });
 const inventory = require('../storage/inventory')(sequelize, Sequelize.DataTypes);
 const Discord = require('discord.js');
-const { where } = require('sequelize');
 module.exports = {
 	name: 'equip',
 	description: 'Equip owned items',

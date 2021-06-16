@@ -1,7 +1,7 @@
 const Discord = require('discord.js')
 module.exports = {
 	name: 'pollutioninfo',
-	description: 'Current air pollution data',
+	description: 'Info about air pollution',
 	execute(receivedMessage, arguments) {
         const pollutionInfo = new Discord.MessageEmbed()
         .setColor('#00cc99')

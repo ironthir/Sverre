@@ -2,7 +2,7 @@ const Discord = require('discord.js')
 const Sequelize = require('sequelize')
 module.exports = {
 	name: 'balance',
-	description: 'Search results',
+	description: 'Account balance',
 	async execute(receivedMessage, arguments) {
         const sequelize = new Sequelize('database', 'user', 'password', {
 			host: 'localhost',
@@ -12,13 +12,14 @@ module.exports = {
 			storage: './storage/database.sqlite',
 		});
       const money = require('../storage/money')(sequelize, Sequelize.DataTypes);
-      let user = await money.findOne({where: {userID: receivedMessage.author.id}});
+      let target = receivedMessage.mentions.users.first() || receivedMessage.author;
+      let user = await money.findOne({where: {userID: target.id}});
       if(user){
-          receivedMessage.channel.send("You have $" + user.balance);
+          receivedMessage.channel.send(receivedMessage.guild.member(target).displayName + " has $" + user.balance);
           return;
       }
       else{
-          receivedMessage.channel.send("You have $0");
+          receivedMessage.channel.send(receivedMessage.guild.member(target).displayName + " has $0");
           return;
       }
 

@@ -11,11 +11,6 @@ for (const file of commandFiles) {
 	const command = require(`./commands/${file}`);
 	client.commands.set(command.name, command);
 }
-const levels = [];
-
-for(var i = 0; i < 50; i++){
-    levels[i] = Math.round(16 * i * i + 150 * i + 100);
-}
 
 //databases
 const sequelize = new Sequelize('database', 'user', 'password', {
@@ -54,7 +49,7 @@ client.on('message', async (receivedMessage) => {
 function expRequired(n){
     return 16 * n * n + 150 * n + 100;
 }
-//leveling system, earning money and command detector
+//leveling system
 client.on('message', async receivedMessage => {
     client.user.setActivity("d!commands", {type: ("PLAYING")} )
     //triggering commands
@@ -167,5 +162,7 @@ async function processCommand(receivedMessage, currPrefix) {
             console.error(error);
         }
     }
+    
+    
 }
 client.login(process.env.TOKEN);

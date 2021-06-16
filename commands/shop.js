@@ -6,7 +6,6 @@ module.exports = {
         const shelf = new Discord.MessageEmbed()
             .setColor('#00cc99')
             .setTitle('Available items')
-            .setDescription('Some description here')
             .setThumbnail('https://i.imgur.com/uiFYsou.png')
             .addFields(
                 { name: 'Titles', value: '\u200B' },

@@ -93,7 +93,7 @@ module.exports = {
 		if(userDesc){
 			context.font = '16px Roboto';
 			context.fillStyle = '#009994';
-			wrapText(context, userDesc.desc, 273, 280, 245, 24)
+			wrapText(context, userDesc.desc, 253, 280, 245, 24)
 		}
 		
 		const inv = await inventory.findOne({where: {userID: target.id, equipped: true}})

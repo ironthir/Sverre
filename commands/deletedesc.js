@@ -2,18 +2,19 @@ const fetch = require("node-fetch");
 const Discord = require('discord.js');
 const Sequelize = require('sequelize')
 const sequelize = new Sequelize({
-	database: "d6lsn880r2ke6u",
-	username: "lkbyceoovbufyv",
-	password: process.env.DB_PASSWORD,
-	host: "ec2-63-34-97-163.eu-west-1.compute.amazonaws.com",
-	port: 5432,
-	dialect: "postgres",
-	dialectOptions: {
-	  ssl: {
-		require: true, 
-		rejectUnauthorized: false 
-	  }
-	},
+    database: "d6lsn880r2ke6u",
+    username: "lkbyceoovbufyv",
+    password: process.env.DB_PASSWORD,
+    host: "ec2-63-34-97-163.eu-west-1.compute.amazonaws.com",
+    port: 5432,
+    dialect: "postgres",
+    dialectOptions: {
+      ssl: {
+        require: true, 
+        rejectUnauthorized: false 
+      }
+    },
+    logging: false,
 });
 
 const description = require("../storage/description")(sequelize, Sequelize.DataTypes);

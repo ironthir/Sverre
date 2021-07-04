@@ -4,6 +4,6 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             unique: true,
         },
-        cost: DataTypes.NUMBER,
+        cost: DataTypes.INTEGER,
     });
 };

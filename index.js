@@ -26,6 +26,7 @@ const sequelize = new Sequelize({
         rejectUnauthorized: false 
       }
     },
+    logging: false,
 });
 
 const Prefixes = require('./storage/Prefixes')(sequelize, Sequelize.DataTypes);

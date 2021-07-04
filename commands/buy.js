@@ -12,6 +12,7 @@ const sequelize = new Sequelize({
         rejectUnauthorized: false 
       }
     },
+    logging: false,
 });
 const money = require('../storage/money')(sequelize, Sequelize.DataTypes);
 const inventory = require('../storage/inventory')(sequelize, Sequelize.DataTypes);

@@ -14,6 +14,7 @@ const sequelize = new Sequelize({
         rejectUnauthorized: false 
       }
     },
+    logging: false,
 });
 
 const description = require("../storage/description")(sequelize, Sequelize.DataTypes);

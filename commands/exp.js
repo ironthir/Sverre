@@ -1,10 +1,17 @@
 const Sequelize = require('sequelize');
-const sequelize = new Sequelize('database', 'user', 'password', {
-    host: 'localhost',
-    dialect: 'sqlite',
-    logging: false,
-    // SQLite only
-    storage: './storage/database.sqlite',
+const sequelize = new Sequelize({
+    database: "d6lsn880r2ke6u",
+    username: "lkbyceoovbufyv",
+    password: process.env.DB_PASSWORD,
+    host: "ec2-63-34-97-163.eu-west-1.compute.amazonaws.com",
+    port: 5432,
+    dialect: "postgres",
+    dialectOptions: {
+      ssl: {
+        require: true, 
+        rejectUnauthorized: false 
+      }
+    },
 });
 const experience = require('../storage/experience')(sequelize, Sequelize.DataTypes);
 const Discord = require('discord.js')

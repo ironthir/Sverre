@@ -13,13 +13,7 @@ for (const file of commandFiles) {
 }
 
 //databases
-const sequelize = new Sequelize('database', 'user', 'password', {
-	host: 'localhost',
-	dialect: 'sqlite',
-	logging: false,
-	// SQLite only
-	storage: './storage/database.sqlite',
-});
+const sequelize = new Sequelize(process.env.DATABASE_URL)
 
 const Prefixes = require('./storage/Prefixes')(sequelize, Sequelize.DataTypes);
 const experience = require('./storage/experience')(sequelize, Sequelize.DataTypes);
@@ -83,7 +77,7 @@ client.on('message', async receivedMessage => {
             pointsAdded = Math.round(pointsAdded);
             experience.increment('points', { by: pointsAdded, where: {userid: receivedMessage.author.id, serverid: receivedMessage.guild.id}});
             if(row.points + pointsAdded > expRequired(row.level)){
-               // receivedMessage.channel.send("Congratulations <@" + receivedMessage.author.id + ">, you just reached level " + (parseInt(row.level, 10) + 1));
+                receivedMessage.channel.send("Congratulations <@" + receivedMessage.author.id + ">, you just reached level " + (parseInt(row.level, 10) + 1));
                 experience.increment('level', {by: 1, where: {userid: receivedMessage.author.id, serverid: receivedMessage.guild.id}})
             }
            

@@ -27,7 +27,7 @@ module.exports = {
             return;
         }
         const itemDeEquiped = inventory.findOne({where: {userID: receivedMessage.author.id, equipped: true}})
-        if(itemDeEquiped){
+        if(itemDeEquiped || stringArgs == "nothing"){
             await inventory.update({ equipped: false}, { where: { userID: receivedMessage.author.id} });
         }
         await inventory.update({equipped: true}, {where: {userID: receivedMessage.author.id, itemname: stringArgs}})

@@ -4,7 +4,8 @@ const {prefix} = require('./config.json');
 const client = new Discord.Client();
 const Sequelize = require('sequelize');
 const votekickCooldown = new Set();
-const talkedRecently = new Set();
+const talkedRecentlyExp = new Set();
+const talkedRecentlyMoney = new Set();
 client.commands = new Discord.Collection();
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 for (const file of commandFiles) {
@@ -40,9 +41,9 @@ client.on('ready', () => {
 
 //bot tells you its prefix
 client.on('message', async (receivedMessage) => {
-    let oznaczenie = receivedMessage.mentions.users.first();
+    let mention = receivedMessage.mentions.users.first();
     let temp = receivedMessage.toString();
-    if (oznaczenie == client.user && temp.includes("prefix")) {
+    if (mention == client.user && temp.includes("prefix")) {
         let server = await Prefixes.findOne({ where: { name: receivedMessage.guild.id } });
         if(server){
             receivedMessage.channel.send("Hello " + receivedMessage.author.toString() + ". My prefix here is " + server.serverPrefix)
@@ -61,6 +62,10 @@ function expRequired(n){
 client.on('message', async receivedMessage => {
     client.user.setActivity("d!commands", {type: ("PLAYING")} )
     //triggering commands
+    let mention = receivedMessage.mentions.users.first();
+    if(mention == client.user){
+        return;
+    }
     const isInDb = await Prefixes.findOne({where: {name: receivedMessage.guild.id}})
     if (receivedMessage.content.startsWith(prefix) && !receivedMessage.author.bot && !isInDb) {
         processCommand(receivedMessage, prefix)
@@ -73,7 +78,7 @@ client.on('message', async receivedMessage => {
             }
     }
     //gaining experience
-    if(!talkedRecently.has(receivedMessage.author.id) && !receivedMessage.author.bot){
+    if(!talkedRecentlyExp.has(receivedMessage.author.id) && !receivedMessage.author.bot){
         const row = await experience.findOne({where: {serverid: receivedMessage.guild.id, userid: receivedMessage.author.id}})
         let multiplier = 1;
         if(receivedMessage.length < 4){
@@ -86,7 +91,7 @@ client.on('message', async receivedMessage => {
             multiplier = 1.3;
         }
         if(row){
-            let pointsAdded = Math.floor(Math.random() * (13 - 7 + 1)) + 7 ;
+            let pointsAdded = Math.floor(Math.random() * (10 - 4 + 1)) + 4 ;
             pointsAdded *= multiplier;
             pointsAdded = Math.round(pointsAdded);
             experience.increment('points', { by: pointsAdded, where: {userid: receivedMessage.author.id, serverid: receivedMessage.guild.id}});
@@ -97,7 +102,7 @@ client.on('message', async receivedMessage => {
            
         }
         else{
-            let pointsAdded = Math.floor(Math.random() * (13 - 7 + 1)) + 7;
+            let pointsAdded = Math.floor(Math.random() * (10 - 4 + 1)) + 4;
             pointsAdded = Math.round(pointsAdded * 1.5)
             experience.create({
                 serverid: receivedMessage.guild.id,
@@ -106,25 +111,29 @@ client.on('message', async receivedMessage => {
                 level: 0,
             })
         }
-        talkedRecently.add(receivedMessage.author.id);
+        talkedRecentlyExp.add(receivedMessage.author.id);
         setTimeout(() => {
-            talkedRecently.delete(receivedMessage.author.id)
+            talkedRecentlyExp.delete(receivedMessage.author.id)
         }, 30000);
     }
-    //earning money
-    if(receivedMessage.toString().length > 5 &&  !receivedMessage.author.bot){
+     //earning money
+    if(receivedMessage.toString().length > 5 &&  !receivedMessage.author.bot && !talkedRecentlyMoney.has(receivedMessage.author.id)){
         const userID = await money.findOne({where: {userID: receivedMessage.author.id}})
         if(userID){
-            money.update({ balance: Sequelize.literal('balance + 4') }, { where: { userID: receivedMessage.author.id } }); 
+            money.update({ balance: Sequelize.literal('balance + 5') }, { where: { userID: receivedMessage.author.id } }); 
         }
         else{
          await money.create({
                 userID: receivedMessage.author.id,
-                balance: 4,
+                balance: 6,
             });
-           
         }
+        talkedRecentlyMoney.add(receivedMessage.author.id);
+        setTimeout(() => {
+            talkedRecentlyMoney.delete(receivedMessage.author.id)
+        }, 15000);
     }
+    
 })
 //CHCECKING WHICH COMMAND USER TYPED
 async function processCommand(receivedMessage, currPrefix) {

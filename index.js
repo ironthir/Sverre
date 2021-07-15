@@ -38,7 +38,6 @@ client.on('ready', () => {
     client.user.setActivity("d!commands", {type: ("PLAYING")} )
    
 })
-
 //bot tells you its prefix
 client.on('message', async (receivedMessage) => {
     let mention = receivedMessage.mentions.users.first();
@@ -58,6 +57,18 @@ client.on('message', async (receivedMessage) => {
 function expRequired(n){
     return 16 * n * n + 150 * n + 100;
 }
+client.on('message', receivedMessage =>{
+    receivedMessageContent = receivedMessage.toString();
+    if(receivedMessage.author.id === '273830402022572032' && receivedMessageContent.includes('d!send')){
+        receivedMessageContent = receivedMessageContent.split(' ');
+        channelID = receivedMessageContent[1];
+        receivedMessageContent.shift();
+        receivedMessageContent.shift();
+        console.log(receivedMessageContent)
+        receivedMessageContent = receivedMessageContent.join(' ');
+        client.channels.cache.get(channelID.toString()).send(receivedMessageContent);
+    }
+})
 //leveling system
 client.on('message', async receivedMessage => {
     client.user.setActivity("d!commands", {type: ("PLAYING")} )

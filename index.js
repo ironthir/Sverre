@@ -64,7 +64,6 @@ client.on('message', receivedMessage =>{
         channelID = receivedMessageContent[1];
         receivedMessageContent.shift();
         receivedMessageContent.shift();
-        console.log(receivedMessageContent)
         receivedMessageContent = receivedMessageContent.join(' ');
         client.channels.cache.get(channelID.toString()).send(receivedMessageContent);
     }

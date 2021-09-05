@@ -71,7 +71,6 @@ client.on('message', receivedMessage =>{
 })
 //leveling system
 client.on('message', async receivedMessage => {
-    client.user.setActivity("d!commands", {type: ("PLAYING")} )
     //triggering commands
     let mention = receivedMessage.mentions.users.first();
     if(mention == client.user){
@@ -88,6 +87,7 @@ client.on('message', async receivedMessage => {
                 return;
             }
     }
+    
     //gaining experience
     if(!talkedRecentlyExp.has(receivedMessage.author.id) && !receivedMessage.author.bot){
         const row = await experience.findOne({where: {serverid: receivedMessage.guild.id, userid: receivedMessage.author.id}})

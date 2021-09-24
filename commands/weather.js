@@ -5,7 +5,7 @@ module.exports = {
 	description: 'Current weather status for your city',
 	execute(receivedMessage, arguments) {
 		let city = arguments.join(' '); 
-		fetch('https://api.openweathermap.org/data/2.5/weather?q=' + city + '&lang=en&appid=' + process.env.WEATHER_TOKEN)
+		fetch('https://api.openweathermap.org/data/2.5/weather?q=' + city + '&lang=en&appid='+ process.env.WEATHER_TOKEN)
 			.then(response => response.json())
 			.then(data => {
 				const currentWeather = new Discord.MessageEmbed()

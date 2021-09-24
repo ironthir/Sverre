@@ -68,6 +68,17 @@ client.on('message', receivedMessage =>{
         client.channels.cache.get(channelID.toString()).send(receivedMessageContent);
     }
 })
+client.on('message', receivedMessage =>{
+    let forbiddenWords = ['nigga', 'nigger', 'nikka', 'czarnuch', 'niger']
+    if(receivedMessage.guild.id != '467403369607200799') return;
+    for(let i = 0; i < forbiddenWords.length; i++){
+        if(receivedMessage.toString().includes(forbiddenWords[i])){
+            receivedMessage.channel.send("<@" + receivedMessage.author.id + "> hamuj sie kurwa!")
+            return;
+        }
+    }
+    
+})
 //leveling system
 client.on('message', async receivedMessage => {
     //triggering commands

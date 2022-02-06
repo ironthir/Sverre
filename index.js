@@ -74,9 +74,9 @@ client.on('message', receivedMessage =>{
     for(let i = 0; i < forbiddenWords.length; i++){
         if(receivedMessage.toString().includes(forbiddenWords[i])){
             receivedMessage.channel.send("<@" + receivedMessage.author.id + "> hamuj sie kurwa!")
-            receivedMessage.delete;
             if(receivedMessage.member.hasPermission('ADMINISTRATOR')) return;
             receivedMessage.member.kick();
+            receivedMessage.delete;
             return;
         }
     }

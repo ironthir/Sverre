@@ -75,11 +75,13 @@ client.on('message', receivedMessage =>{
         if(receivedMessage.toString().includes(forbiddenWords[i])){
             console.log()
             receivedMessage.channel.send("<@" + receivedMessage.author.id + "> hamuj sie kurwa!")
-            receivedMessage.delete;
+            
             if(receivedMessage.member.hasPermission('ADMINISTRATOR')){
+                receivedMessage.delete;
                 return;
             }
             receivedMessage.member.kick();
+            receivedMessage.delete;
             return;
         }
     }

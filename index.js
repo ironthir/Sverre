@@ -73,11 +73,13 @@ client.on('message', receivedMessage =>{
     if(receivedMessage.guild.id != '467403369607200799') return;
     for(let i = 0; i < forbiddenWords.length; i++){
         if(receivedMessage.toString().includes(forbiddenWords[i])){
-            console.log("triggered")
+            console.log()
             receivedMessage.channel.send("<@" + receivedMessage.author.id + "> hamuj sie kurwa!")
-            if(receivedMessage.member.hasPermission('ADMINISTRATOR')) return;
-            //receivedMessage.member.kick();
             receivedMessage.delete;
+            if(receivedMessage.member.hasPermission('ADMINISTRATOR')){
+                return;
+            }
+            receivedMessage.member.kick();
             return;
         }
     }

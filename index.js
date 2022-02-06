@@ -69,18 +69,16 @@ client.on('message', receivedMessage =>{
     }
 })
 client.on('message', receivedMessage =>{
-    let forbiddenWords = ['nigga', 'nigger', 'nikka', 'czarnuch', 'niger', "niga"]
+    let forbiddenWords = ['nigga', 'nigger', 'nikka', 'czarnuch', "niga"]
     if(receivedMessage.guild.id != '467403369607200799') return;
     for(let i = 0; i < forbiddenWords.length; i++){
         if(receivedMessage.toString().includes(forbiddenWords[i])){
-            console.log()
             receivedMessage.channel.send("<@" + receivedMessage.author.id + "> hamuj sie kurwa!")
-            
-            if(receivedMessage.member.hasPermission('ADMINISTRATOR')){
+            if(!receivedMessage.member.hasPermission('ADMINISTRATOR')){
+                receivedMessage.member.kick();
                 receivedMessage.delete;
                 return;
             }
-            receivedMessage.member.kick();
             receivedMessage.delete;
             return;
         }

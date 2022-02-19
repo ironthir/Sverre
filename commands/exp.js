@@ -1,9 +1,9 @@
 const Sequelize = require('sequelize');
 const sequelize = new Sequelize({
-  database: "d6lsn880r2ke6u",
-  username: "lkbyceoovbufyv",
+  database: process.env.DB,
+  username: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
-  host: "ec2-63-34-97-163.eu-west-1.compute.amazonaws.com",
+  host: process.env.DB_HOST,
   port: 5432,
   dialect: "postgres",
   dialectOptions: {

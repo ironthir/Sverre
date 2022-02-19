@@ -15,10 +15,10 @@ for (const file of commandFiles) {
 
 //databases
 const sequelize = new Sequelize({
-    database: "d6lsn880r2ke6u",
-    username: "lkbyceoovbufyv",
+    database: process.env.DB,
+    username: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
-    host: "ec2-63-34-97-163.eu-west-1.compute.amazonaws.com",
+    host: process.env.DB_HOST,
     port: 5432,
     dialect: "postgres",
     dialectOptions: {
@@ -69,15 +69,13 @@ client.on('message', receivedMessage =>{
     }
 })
 client.on('message', receivedMessage =>{
-    let forbiddenWords = ['nigga', 'nigger', 'nikka', 'czarnuch', "niga"]
+    let forbiddenWords = ['nigga', 'nigger', 'nikka', 'czarnuch', "niga", 'nygus']
     if(receivedMessage.guild.id != '467403369607200799') return;
     for(let i = 0; i < forbiddenWords.length; i++){
         if(receivedMessage.toString().includes(forbiddenWords[i])){
             receivedMessage.channel.send("<@" + receivedMessage.author.id + "> hamuj sie kurwa!")
             if(!receivedMessage.member.hasPermission('ADMINISTRATOR')){
                 receivedMessage.member.kick();
-                receivedMessage.delete;
-                return;
             }
             receivedMessage.delete;
             return;
@@ -108,6 +106,8 @@ client.on('message', async receivedMessage => {
     if(!talkedRecentlyExp.has(receivedMessage.author.id) && !receivedMessage.author.bot){
         const row = await experience.findOne({where: {serverid: receivedMessage.guild.id, userid: receivedMessage.author.id}})
         let multiplier = 1;
+        if(receivedMessage.content.includes('https')) return;
+        if(receivedMessage.attachments.size > 0) return;
         if(receivedMessage.length < 4){
             multiplier = 0.5;
         }

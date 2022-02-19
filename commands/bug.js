@@ -1,6 +1,5 @@
 const Discord = require('discord.js')
 module.exports = {
-
 	name: 'bug',
 	description: 'Bug report form',
 	execute(receivedMessage, arguments) {

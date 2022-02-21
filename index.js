@@ -77,7 +77,6 @@ client.on('message', receivedMessage =>{
             if(!receivedMessage.member.hasPermission('ADMINISTRATOR')){
                 receivedMessage.member.kick();
             }
-            receivedMessage.delete;
             return;
         }
     }
